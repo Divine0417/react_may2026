@@ -1,0 +1,80 @@
+.formik-page {
+  max-width: 720px;
+  margin: 36px auto;
+  padding: 28px 20px;
+  background: linear-gradient(180deg,#ffffff 0%, #f7f9ff 100%);
+  border-radius: 14px;
+  box-shadow: 0 18px 40px rgba(32, 44, 86, 0.08);
+  border: 1px solid rgba(102, 112, 255, 0.06);
+}
+
+.formik-form {
+  display: grid;
+  gap: 14px;
+}
+
+.form-control {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-control label {
+  font-weight: 600;
+  color: #24325f;
+  margin-bottom: 6px;
+}
+
+.input {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #e6e9f7;
+  background: white;
+  font-size: 14px;
+  color: #263149;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #6c7bff;
+  box-shadow: 0 6px 18px rgba(108, 123, 255, 0.12);
+}
+
+.input-error {
+  border-color: #ff6b6b;
+  box-shadow: 0 6px 18px rgba(255, 107, 107, 0.06);
+}
+
+.error {
+  color: #d9534f;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+.submit-btn {
+  padding: 12px 18px;
+  background: linear-gradient(90deg,#5b6cff 0%, #8a6af5 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(90, 110, 255, 0.2); }
+
+.user-list {
+  margin-top: 22px;
+  display: grid;
+  gap: 10px;
+}
+
+.user-item {
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid rgba(101, 118, 255, 0.06);
+}
+
+.user-item strong { color: #2b3561; }

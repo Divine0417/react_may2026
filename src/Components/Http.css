@@ -1,0 +1,80 @@
+.http-page {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px 40px;
+}
+
+.http-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.http-header h2 {
+  font-size: 2rem;
+  color: #2d2d6b;
+  margin-bottom: 10px;
+}
+
+.http-header p {
+  color: #555;
+  font-size: 1rem;
+}
+
+.http-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.http-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 14px 30px rgba(33, 43, 92, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border: 1px solid rgba(115, 103, 242, 0.12);
+}
+
+.http-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 44px rgba(33, 43, 92, 0.14);
+}
+
+.http-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+  color: #23395d;
+}
+
+.http-card p {
+  color: #5c6270;
+  line-height: 1.7;
+  margin-bottom: 18px;
+  min-height: 80px;
+}
+
+.http-card a {
+  display: inline-block;
+  text-decoration: none;
+  background: linear-gradient(135deg, #5865f2 0%, #8a6af5 100%);
+  color: white;
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.http-card a:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(88, 101, 242, 0.24);
+}
+
+.http-empty {
+  padding: 40px 20px;
+  border-radius: 16px;
+  background: #f6f7ff;
+  text-align: center;
+  color: #444d6b;
+  font-size: 1rem;
+}
