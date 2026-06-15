@@ -4,47 +4,42 @@ import * as yup from "yup"
 import './Formik.css'
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
-import { toast } from "react-toastify"
+import { toast, ToastContainer, Bounce } from "react-toastify";
 
-const Formik = () => {
+const Login = () => {
     const [allUser, setAllUser] = useState([])
     const navigate = useNavigate()
 
     const formik = useFormik({
         initialValues: {
-            username: '',
             email: '',
             password: ''
         },
-        validationSchema: yup.object({
-            username: yup.string().min(3, "Username cannot be less then 3 characters").max(33, "Username is too long").required("Username cannot be empty"),
-            email: yup.string().email("Invalid email address").required("Email cannot be empty").trim(),
-            password: yup.string().min(8, "Password cannnot be less than 8 character.").matches(/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).*$/, "Password must contain a number, an uppercase, a special character").required("Password cannot be empty")
-        }),
         onSubmit: async (values, { resetForm }) => {
             try {
-                const response = await axios.get("http://localhost:4567/users")
-                console.log(response.data)
-                const existingUsers = response.data || [];
+                const { email, password } = values;
+                const existingUsers = await axios.get("http://localhost:4567/users")
 
-                const userExists = existingUsers.find(
-                    user => user.email === values.email || user.username === values.username
-                )
-                if (userExists) {
-                    toast.error("User with this email or username already exists.")
-                    return
+                const userExists = existingUsers?.data.find(user => user.email === email)
+                if (userExists && userExists.password === password) {
+                    localStorage.setItem("loggedInUser", JSON.stringify({
+                        id: userExists.id,
+                        username: userExists.username
+                    }))
+                    toast.success("Login successful!")
+                    toast.info("Redirecting to dashboard...")
+                    setTimeout(() => {
+                        navigate("/home")
+                    }, 2000);
+                    resetForm();
+                } else {
+                    toast.error("Invalid credentials.")
                 }
-
-                const res = await axios.post("http://localhost:4567/users", values)
-                console.log("User created:", res.data)
-                resetForm()
-                toast.success("User saved successfully!")
-                navigate("/login")
-
             } catch (err) {
                 console.error(err)
+                const code = err?.code || err?.response?.status
                 const message = err?.response?.data?.message || err.message || "Error saving user."
-                toast.error(message)
+                toast.error(`${code ? code + ' - ' : ''}${message}`)
             }
         }
     })
@@ -59,21 +54,6 @@ const Formik = () => {
     return (
         <div className="formik-page">
             <form className="formik-form" onSubmit={formik.handleSubmit} noValidate action='/login' method="post">
-                <div className="form-control">
-                    <label htmlFor="username">Username</label>
-                    <input
-                        id="username"
-                        name="username"
-                        value={formik.values.username}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        placeholder="Enter username"
-                        type="text"
-                        className={"input " + (formik.touched.username && formik.errors.username ? 'input-error' : '')}
-                    />
-                    <small className="error">{formik.touched.username && formik.errors.username}</small>
-                </div>
-
                 <div className="form-control">
                     <label htmlFor="email">Email</label>
                     <input
@@ -106,18 +86,9 @@ const Formik = () => {
 
                 <button type="submit" className="submit-btn">Submit</button>
             </form>
-
-            {allUser.length > 0 && (
-                <div className="user-list">
-                    {allUser.map((u, idx) => (
-                        <div className="user-item" key={idx}>
-                            <strong>{u.username}</strong> — <span>{u.email}</span>
-                        </div>
-                    ))}
-                </div>
-            )}
+            <ToastContainer position="top-right" autoClose={2000} transition={Bounce} />
         </div>
     )
 }
 
-export default Formik
+export default Login

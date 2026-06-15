@@ -12,6 +12,7 @@ import Variables from "./Components/Variables"
 import Http from "./Components/Http"
 import Onepost from "./Components/Onepost"
 import Formik from "./Components/Formik"
+import Login from "./Components/Login"
 import { ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -44,6 +45,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/sportify" element={<Sportify />} />
         <Route path="/form" element={<Formik />} />
+        <Route path="/login" element={<Login />} />
         <Route path="*" element={<Notfound />} />
         <Route path="/home" element={<Dashboard />} >
           <Route path="/home/profile" element={<Todo />} />

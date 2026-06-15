@@ -4,7 +4,13 @@
       "username": "kingjoss01",
       "email": "oluwatomisinfasooto@gmail.com",
       "password": "01k!ngj@$S",
-      "id": "1XCAuxPqgNw"
+      "id": "O2bur7ieQZM"
+    },
+    {
+      "username": "Dev_017",
+      "email": "kingjoss01@gmail.com",
+      "password": "dIv!n#e0417",
+      "id": "wGlAuOXb6yI"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
