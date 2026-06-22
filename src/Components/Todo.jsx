@@ -1,8 +1,6 @@
-import { useFormik } from "formik"
-import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom";
-import axios from "axios"
+import { useState } from "react"
 import './Todo.css'
+import { useSelector } from "react-redux"
 
 const Todo = () => {
   const [title, settitle] = useState("")
@@ -10,23 +8,7 @@ const Todo = () => {
   const [alltodo, setalltodo] = useState([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [currenttodo, setCurrenttodo] = useState(null)
-  const [user, setUser] = useState(null)
-  const navigate = useNavigate();
-  const stored = JSON.parse(localStorage.getItem("loggedInUser"))
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const response = await axios.get("http://localhost:4567/users")
-      const user = response.data.find(u => u.id === stored.id)
-      setUser(user)
-
-      if (!user) {
-        navigate("/login")
-        return
-      }
-    }
-    fetchUser()
-  }, [])
+  const user = useSelector(state => state.auth.currentUser)
 
   const handleinput = (e) => {
     settitle(e.target.value)

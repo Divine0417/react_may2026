@@ -1,14 +1,20 @@
+import { useEffect } from "react"
 import { useFormik } from "formik"
-import { useState, useEffect } from "react"
 import * as yup from "yup"
 import './Formik.css'
 import { useNavigate } from "react-router-dom"
-import axios from "axios"
 import { toast } from "react-toastify"
+import { useDispatch, useSelector } from "react-redux"
+import { fetchUsers } from "../Redux/authSlice"
 
 const Formik = () => {
-    const [allUser, setAllUser] = useState([])
+    const dispatch = useDispatch()
     const navigate = useNavigate()
+    const { users, loading, error } = useSelector(state => state.auth)
+
+    useEffect(() => {
+        dispatch(fetchUsers())
+    }, [dispatch])
 
     const formik = useFormik({
         initialValues: {
@@ -17,48 +23,27 @@ const Formik = () => {
             password: ''
         },
         validationSchema: yup.object({
-            username: yup.string().min(3, "Username cannot be less then 3 characters").max(33, "Username is too long").required("Username cannot be empty"),
+            username: yup.string().min(3, "Username cannot be less than 3 characters").max(33, "Username is too long").required("Username cannot be empty"),
             email: yup.string().email("Invalid email address").required("Email cannot be empty").trim(),
-            password: yup.string().min(8, "Password cannnot be less than 8 character.").matches(/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).*$/, "Password must contain a number, an uppercase, a special character").required("Password cannot be empty")
+            password: yup.string().min(8, "Password cannot be less than 8 characters").matches(/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).*$/, "Password must contain a number, an uppercase, a special character").required("Password cannot be empty")
         }),
-        onSubmit: async (values, { resetForm }) => {
-            try {
-                const response = await axios.get("http://localhost:4567/users")
-                console.log(response.data)
-                const existingUsers = response.data || [];
-
-                const userExists = existingUsers.find(
-                    user => user.email === values.email || user.username === values.username
-                )
-                if (userExists) {
-                    toast.error("User with this email or username already exists.")
-                    return
-                }
-
-                const res = await axios.post("http://localhost:4567/users", values)
-                console.log("User created:", res.data)
-                resetForm()
-                toast.success("User saved successfully!")
-                navigate("/login")
-
-            } catch (err) {
-                console.error(err)
-                const message = err?.response?.data?.message || err.message || "Error saving user."
-                toast.error(message)
+        onSubmit: (values, { resetForm }) => {            
+            const exists = users.find(u => u.email === values.email || u.username === values.username)
+            
+            if (exists) {
+                toast.error("User with this email or username already exists.")
+                return
             }
+            dispatch(fetchUsers())
+            toast.success("User saved successfully!")
+            resetForm()
+            navigate("/login")
         }
     })
 
-    useEffect(() => {
-        const saved = localStorage.getItem("Users")
-        if (saved) {
-            setAllUser(JSON.parse(saved))
-        }
-    }, [])
-
     return (
         <div className="formik-page">
-            <form className="formik-form" onSubmit={formik.handleSubmit} noValidate action='/login' method="post">
+            <form className="formik-form" onSubmit={formik.handleSubmit} noValidate>
                 <div className="form-control">
                     <label htmlFor="username">Username</label>
                     <input
@@ -104,18 +89,8 @@ const Formik = () => {
                     <small className="error">{formik.touched.password && formik.errors.password}</small>
                 </div>
 
-                <button type="submit" className="submit-btn">Submit</button>
+                <button type="submit" className="submit-btn">Sign Up</button>
             </form>
-
-            {allUser.length > 0 && (
-                <div className="user-list">
-                    {allUser.map((u, idx) => (
-                        <div className="user-item" key={idx}>
-                            <strong>{u.username}</strong> — <span>{u.email}</span>
-                        </div>
-                    ))}
-                </div>
-            )}
         </div>
     )
 }

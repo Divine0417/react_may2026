@@ -9,12 +9,16 @@ import App from "./App"
 // import Sportify from './Components/Sportify'
 // import Addtodo from './Components/Addtodo'
 import { BrowserRouter } from 'react-router-dom'
+import store from './Redux/Store'
+import { Provider } from 'react-redux'
 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
       <App/>
     </BrowserRouter>
+    </Provider>
   </StrictMode>,
 )

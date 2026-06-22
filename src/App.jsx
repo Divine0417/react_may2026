@@ -15,6 +15,7 @@ import Formik from "./Components/Formik"
 import Login from "./Components/Login"
 import { ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
+import Counts from "./Components/Counts"
 
 
 
@@ -44,6 +45,7 @@ function App() {
         <Route path="/onepost/:id" element={<Onepost />} />
         <Route path="/" element={<Home />} />
         <Route path="/sportify" element={<Sportify />} />
+        <Route path="/count" element={<Counts />} />
         <Route path="/form" element={<Formik />} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<Notfound />} />
